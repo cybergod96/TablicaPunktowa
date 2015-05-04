@@ -10,6 +10,25 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->btnPlayer1AddScore->hide();
     ui->pbPlayer2AddScore->hide();
+    ui->btnP1Cat1C->hide();
+    ui->btnP1Cat1H->hide();
+    ui->btnP1Cat1K->hide();
+    ui->btnP1Cat2K->hide();
+    ui->btnP1Cat1HC->hide();
+    ui->btnP1Cat2C->hide();
+    ui->btnP1Cat2H->hide();
+    ui->btnP1Cat2HC->hide();
+
+    ui->btnP2Cat1K->hide();
+    ui->btnP2Cat2K->hide();
+    ui->btnP2Cat1C->hide();
+    ui->btnP2Cat1H->hide();
+    ui->btnP2Cat1HC->hide();
+    ui->btnP2Cat2C->hide();
+    ui->btnP2Cat2H->hide();
+    ui->btnP2Cat2HC->hide();
+    ui->label->hide();
+    ui->label_3->hide();
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(tick()));
     score1 = score2 = time = chosen_time = 0;
@@ -112,6 +131,27 @@ void MainWindow::on_btnReset_clicked()
     ui->btnStart->show();
     ui->btnPlayer1AddScore->hide();
     ui->pbPlayer2AddScore->hide();
+
+    ui->btnP1Cat1C->hide();
+    ui->btnP1Cat1H->hide();
+    ui->btnP1Cat1HC->hide();
+    ui->btnP1Cat2C->hide();
+    ui->btnP1Cat2H->hide();
+    ui->btnP1Cat2HC->hide();
+    ui->btnP1Cat1K->hide();
+    ui->btnP1Cat2K->hide();
+
+    ui->btnP2Cat1K->hide();
+    ui->btnP2Cat2K->hide();
+    ui->btnP2Cat1C->hide();
+    ui->btnP2Cat1H->hide();
+    ui->btnP2Cat1HC->hide();
+    ui->btnP2Cat2C->hide();
+    ui->btnP2Cat2H->hide();
+    ui->btnP2Cat2HC->hide();
+    ui->label->hide();
+    ui->label_3->hide();
+
     ui->btnP1Cat1C->setChecked(false);
     ui->btnP1Cat1C->setStyleSheet("background-color: grey;");
     ui->btnP1Cat1H->setChecked(false);
@@ -151,6 +191,25 @@ void MainWindow::on_btnStart_clicked()
     QSound::play("/horn.wav");
     ui->btnPlayer1AddScore->show();
     ui->pbPlayer2AddScore->show();
+    ui->label->show();
+    ui->label_3->show();
+    ui->btnP1Cat1C->show();
+    ui->btnP1Cat1H->show();
+    ui->btnP1Cat1HC->show();
+    ui->btnP1Cat2C->show();
+    ui->btnP1Cat2H->show();
+    ui->btnP1Cat2HC->show();
+    ui->btnP1Cat1K->show();
+    ui->btnP1Cat2K->show();
+
+    ui->btnP2Cat1K->show();
+    ui->btnP2Cat2K->show();
+    ui->btnP2Cat1C->show();
+    ui->btnP2Cat1H->show();
+    ui->btnP2Cat1HC->show();
+    ui->btnP2Cat2C->show();
+    ui->btnP2Cat2H->show();
+    ui->btnP2Cat2HC->show();
     ui->btnStart->hide();
     timer->start(1000);
 
