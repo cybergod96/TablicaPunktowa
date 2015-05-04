@@ -110,6 +110,8 @@ void MainWindow::on_btnReset_clicked()
     UpdateScoreLabels();
     UpdateTimeLabel();
     ui->btnStart->show();
+    ui->btnPlayer1AddScore->hide();
+    ui->pbPlayer2AddScore->hide();
     ui->btnP1Cat1C->setChecked(false);
     ui->btnP1Cat1C->setStyleSheet("background-color: grey;");
     ui->btnP1Cat1H->setChecked(false);
