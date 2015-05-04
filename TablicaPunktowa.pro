@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += multimedia widgets
 
 TARGET = TablicaPunktowa
 TEMPLATE = app
@@ -21,3 +21,6 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     dialog.ui
+
+DISTFILES += \
+    horn.wav

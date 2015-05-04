@@ -8,6 +8,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->btnPlayer1AddScore->hide();
+    ui->pbPlayer2AddScore->hide();
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(tick()));
     score1 = score2 = time = chosen_time = 0;
@@ -24,10 +26,40 @@ MainWindow::~MainWindow()
 void MainWindow::tick()
 {
     time -= 1;
-    if(time == 0) timer->stop();
+    if(time == 0) { timer->stop(); QSound::play("/horn.wav"); }
 
     //warning
-    //if(time == 30 || time == 10)
+    if(time == 30 || time == 10) { QSound::play("/horn.wav"); }
+
+    if(score1-score2 == 8 || score2-score1 == 8)
+    {
+        timer->stop();
+        ui->btnPlayer1AddScore->hide();
+        ui->pbPlayer2AddScore->hide();
+        QSound::play("/horn.wav");
+    }
+
+    if(        ui->btnP1Cat1C->isChecked() && ui->btnP1Cat1K->isChecked()
+            && ui->btnP1Cat1HC->isChecked()&& ui->btnP1Cat1H->isChecked()
+            && ui->btnP1Cat2C->isChecked() && ui->btnP1Cat2H->isChecked()
+            && ui->btnP1Cat2HC->isChecked()&& ui->btnP1Cat2K->isChecked())
+    {
+        QSound::play("/horn.wav");
+        timer->stop();
+        ui->btnPlayer1AddScore->hide();
+        ui->pbPlayer2AddScore->hide();
+    }
+
+    if(        ui->btnP2Cat1C->isChecked() && ui->btnP2Cat1K->isChecked()
+            && ui->btnP2Cat1HC->isChecked()&& ui->btnP2Cat1H->isChecked()
+            && ui->btnP2Cat2C->isChecked() && ui->btnP2Cat2H->isChecked()
+            && ui->btnP2Cat2HC->isChecked()&& ui->btnP2Cat2K->isChecked())
+    {
+        QSound::play("/horn.wav");
+        timer->stop();
+        ui->btnPlayer1AddScore->hide();
+        ui->pbPlayer2AddScore->hide();
+    }
 
     //label
     /*std::stringstream s;
@@ -77,6 +109,7 @@ void MainWindow::on_btnReset_clicked()
     timer->stop();
     UpdateScoreLabels();
     UpdateTimeLabel();
+    ui->btnStart->show();
     ui->btnP1Cat1C->setChecked(false);
     ui->btnP1Cat1C->setStyleSheet("background-color: grey;");
     ui->btnP1Cat1H->setChecked(false);
@@ -113,7 +146,12 @@ void MainWindow::on_btnReset_clicked()
 
 void MainWindow::on_btnStart_clicked()
 {
+    QSound::play("/horn.wav");
+    ui->btnPlayer1AddScore->show();
+    ui->pbPlayer2AddScore->show();
+    ui->btnStart->hide();
     timer->start(1000);
+
 }
 
 void MainWindow::on_btnPause_clicked()

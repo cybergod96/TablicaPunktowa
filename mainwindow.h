@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QtMultimedia/QSound>
 #include "dialog.h"
 
 namespace Ui {
@@ -18,7 +19,6 @@ public:
     ~MainWindow();
     void UpdateTimeLabel();
     void UpdateScoreLabels();
-
 public slots:
     void tick();
 
