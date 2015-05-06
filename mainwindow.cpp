@@ -8,30 +8,31 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->btnPlayer1AddScore->hide();
-    ui->pbPlayer2AddScore->hide();
-    ui->btnP1Cat1C->hide();
-    ui->btnP1Cat1H->hide();
-    ui->btnP1Cat1K->hide();
-    ui->btnP1Cat2K->hide();
-    ui->btnP1Cat1HC->hide();
-    ui->btnP1Cat2C->hide();
-    ui->btnP1Cat2H->hide();
-    ui->btnP1Cat2HC->hide();
+    ui->btnPlayer1AddScore->setEnabled(false);
+    ui->pbPlayer2AddScore->setEnabled(false);
+    ui->btnP1Cat1C->setEnabled(false);
+    ui->btnP1Cat1H->setEnabled(false);
+    ui->btnP1Cat1K->setEnabled(false);
+    ui->btnP1Cat2K->setEnabled(false);
+    ui->btnP1Cat1HC->setEnabled(false);
+    ui->btnP1Cat2C->setEnabled(false);
+    ui->btnP1Cat2H->setEnabled(false);
+    ui->btnP1Cat2HC->setEnabled(false);
 
-    ui->btnP2Cat1K->hide();
-    ui->btnP2Cat2K->hide();
-    ui->btnP2Cat1C->hide();
-    ui->btnP2Cat1H->hide();
-    ui->btnP2Cat1HC->hide();
-    ui->btnP2Cat2C->hide();
-    ui->btnP2Cat2H->hide();
-    ui->btnP2Cat2HC->hide();
-    ui->label->hide();
-    ui->label_3->hide();
+    ui->btnP2Cat1K->setEnabled(false);
+    ui->btnP2Cat2K->setEnabled(false);
+    ui->btnP2Cat1C->setEnabled(false);
+    ui->btnP2Cat1H->setEnabled(false);
+    ui->btnP2Cat1HC->setEnabled(false);
+    ui->btnP2Cat2C->setEnabled(false);
+    ui->btnP2Cat2H->setEnabled(false);
+    ui->btnP2Cat2HC->setEnabled(false);
+    ui->btnPause->setEnabled(false);
     timer = new QTimer(this);
+    sound = new QSound(":/sound/horn.wav");
     connect(timer,SIGNAL(timeout()),this,SLOT(tick()));
     score1 = score2 = time = chosen_time = 0;
+    settings = false;
     UpdateScoreLabels();
     UpdateTimeLabel();
 }
@@ -39,55 +40,26 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete timer;
+    delete sound;
     delete ui;
 }
 
 void MainWindow::tick()
 {
     time -= 1;
-    if(time == 0) { timer->stop(); QSound::play("/horn.wav"); }
+    if(time == 0)
+    {
+        timer->stop();
+        sound->play();
+        ui->btnStart->setEnabled(true);
+        ui->btnPause->setEnabled(false);
+        ui->btnSettings->setEnabled(true);
+        ui->btnReset->setEnabled(true);
+    }
 
     //warning
-    if(time == 30 || time == 10) { QSound::play("/horn.wav"); }
+    if(time == 30 || time == 10) { sound->play(); }
 
-    if(score1-score2 == 8 || score2-score1 == 8)
-    {
-        timer->stop();
-        ui->btnPlayer1AddScore->hide();
-        ui->pbPlayer2AddScore->hide();
-        QSound::play("/horn.wav");
-    }
-
-    if(        ui->btnP1Cat1C->isChecked() && ui->btnP1Cat1K->isChecked()
-            && ui->btnP1Cat1HC->isChecked()&& ui->btnP1Cat1H->isChecked()
-            && ui->btnP1Cat2C->isChecked() && ui->btnP1Cat2H->isChecked()
-            && ui->btnP1Cat2HC->isChecked()&& ui->btnP1Cat2K->isChecked())
-    {
-        QSound::play("/horn.wav");
-        timer->stop();
-        ui->btnPlayer1AddScore->hide();
-        ui->pbPlayer2AddScore->hide();
-    }
-
-    if(        ui->btnP2Cat1C->isChecked() && ui->btnP2Cat1K->isChecked()
-            && ui->btnP2Cat1HC->isChecked()&& ui->btnP2Cat1H->isChecked()
-            && ui->btnP2Cat2C->isChecked() && ui->btnP2Cat2H->isChecked()
-            && ui->btnP2Cat2HC->isChecked()&& ui->btnP2Cat2K->isChecked())
-    {
-        QSound::play("/horn.wav");
-        timer->stop();
-        ui->btnPlayer1AddScore->hide();
-        ui->pbPlayer2AddScore->hide();
-    }
-
-    //label
-    /*std::stringstream s;
-    int tmp = time/60;
-    s<<tmp<<":";
-    tmp = time-tmp*60;
-    if(tmp<10)s<<"0";
-    s<<tmp;
-    ui->lblTime->setText(QString(s.str().c_str()));*/
     UpdateTimeLabel();
 }
 
@@ -128,29 +100,28 @@ void MainWindow::on_btnReset_clicked()
     timer->stop();
     UpdateScoreLabels();
     UpdateTimeLabel();
-    ui->btnStart->show();
-    ui->btnPlayer1AddScore->hide();
-    ui->pbPlayer2AddScore->hide();
+    ui->btnStart->setEnabled(true);
+    ui->btnPlayer1AddScore->setEnabled(false);
+    ui->pbPlayer2AddScore->setEnabled(false);
 
-    ui->btnP1Cat1C->hide();
-    ui->btnP1Cat1H->hide();
-    ui->btnP1Cat1HC->hide();
-    ui->btnP1Cat2C->hide();
-    ui->btnP1Cat2H->hide();
-    ui->btnP1Cat2HC->hide();
-    ui->btnP1Cat1K->hide();
-    ui->btnP1Cat2K->hide();
+    ui->btnP1Cat1C->setEnabled(false);
+    ui->btnP1Cat1H->setEnabled(false);
+    ui->btnP1Cat1HC->setEnabled(false);
+    ui->btnP1Cat2C->setEnabled(false);
+    ui->btnP1Cat2H->setEnabled(false);
+    ui->btnP1Cat2HC->setEnabled(false);
+    ui->btnP1Cat1K->setEnabled(false);
+    ui->btnP1Cat2K->setEnabled(false);
 
-    ui->btnP2Cat1K->hide();
-    ui->btnP2Cat2K->hide();
-    ui->btnP2Cat1C->hide();
-    ui->btnP2Cat1H->hide();
-    ui->btnP2Cat1HC->hide();
-    ui->btnP2Cat2C->hide();
-    ui->btnP2Cat2H->hide();
-    ui->btnP2Cat2HC->hide();
-    ui->label->hide();
-    ui->label_3->hide();
+    ui->btnP2Cat1K->setEnabled(false);
+    ui->btnP2Cat2K->setEnabled(false);
+    ui->btnP2Cat1C->setEnabled(false);
+    ui->btnP2Cat1H->setEnabled(false);
+    ui->btnP2Cat1HC->setEnabled(false);
+    ui->btnP2Cat2C->setEnabled(false);
+    ui->btnP2Cat2H->setEnabled(false);
+    ui->btnP2Cat2HC->setEnabled(false);
+    ui->btnSettings->setEnabled(true);
 
     ui->btnP1Cat1C->setChecked(false);
     ui->btnP1Cat1C->setStyleSheet("background-color: grey;");
@@ -188,29 +159,31 @@ void MainWindow::on_btnReset_clicked()
 
 void MainWindow::on_btnStart_clicked()
 {
-    QSound::play("/horn.wav");
-    ui->btnPlayer1AddScore->show();
-    ui->pbPlayer2AddScore->show();
-    ui->label->show();
-    ui->label_3->show();
-    ui->btnP1Cat1C->show();
-    ui->btnP1Cat1H->show();
-    ui->btnP1Cat1HC->show();
-    ui->btnP1Cat2C->show();
-    ui->btnP1Cat2H->show();
-    ui->btnP1Cat2HC->show();
-    ui->btnP1Cat1K->show();
-    ui->btnP1Cat2K->show();
+    if(!settings) {QMessageBox::warning(this,"Uwaga","Nie ustawiono czasu trwania i nazw zawodników!"); return;}
+    sound->play();
+    ui->btnPlayer1AddScore->setEnabled(true);
+    ui->pbPlayer2AddScore->setEnabled(true);
+    ui->btnP1Cat1C->setEnabled(true);
+    ui->btnP1Cat1H->setEnabled(true);
+    ui->btnP1Cat1HC->setEnabled(true);
+    ui->btnP1Cat2C->setEnabled(true);
+    ui->btnP1Cat2H->setEnabled(true);
+    ui->btnP1Cat2HC->setEnabled(true);
+    ui->btnP1Cat1K->setEnabled(true);
+    ui->btnP1Cat2K->setEnabled(true);
 
-    ui->btnP2Cat1K->show();
-    ui->btnP2Cat2K->show();
-    ui->btnP2Cat1C->show();
-    ui->btnP2Cat1H->show();
-    ui->btnP2Cat1HC->show();
-    ui->btnP2Cat2C->show();
-    ui->btnP2Cat2H->show();
-    ui->btnP2Cat2HC->show();
-    ui->btnStart->hide();
+    ui->btnP2Cat1K->setEnabled(true);
+    ui->btnP2Cat2K->setEnabled(true);
+    ui->btnP2Cat1C->setEnabled(true);
+    ui->btnP2Cat1H->setEnabled(true);
+    ui->btnP2Cat1HC->setEnabled(true);
+    ui->btnP2Cat2C->setEnabled(true);
+    ui->btnP2Cat2H->setEnabled(true);
+    ui->btnP2Cat2HC->setEnabled(true);
+    ui->btnStart->setEnabled(false);
+    ui->btnPause->setEnabled(true);
+    ui->btnReset->setEnabled(false);
+    ui->btnSettings->setEnabled(false);
     timer->start(1000);
 
 }
@@ -218,12 +191,17 @@ void MainWindow::on_btnStart_clicked()
 void MainWindow::on_btnPause_clicked()
 {
     timer->stop();
+    ui->btnStart->setEnabled(true);
+    ui->btnPause->setEnabled(false);
+    ui->btnReset->setEnabled(true);
+    ui->btnSettings->setEnabled(true);
 }
 
 void MainWindow::on_btnSettings_clicked()
 {
+    settings = true;
     Dialog *dlg = new Dialog();
-    dlg->Init(ui->gbPlayer1->title(),ui->gbPlayer2->title());
+    dlg->Init(ui->gbPlayer1->title(),ui->gbPlayer2->title(),chosen_time);
     if(dlg->exec() == QDialog::Accepted)
     {
         ui->gbPlayer1->setTitle(dlg->GetPlayer1Name());
@@ -253,6 +231,37 @@ void MainWindow::UpdateScoreLabels()
     s.str("");
     s<<score2;
     ui->lblScore2->setText(QString(s.str().c_str()));
+
+    if(score1-score2 == 8 || score2-score1 == 8)
+    {
+        timer->stop();
+        sound->play();
+        ui->btnPlayer1AddScore->setEnabled(false);
+        ui->pbPlayer2AddScore->setEnabled(false);
+        ui->btnPause->setEnabled(false);
+        ui->btnStart->setEnabled(true);
+        ui->btnSettings->setEnabled(true);
+        ui->btnReset->setEnabled(true);
+
+        ui->btnP1Cat1C->setEnabled(false);
+        ui->btnP1Cat1H->setEnabled(false);
+        ui->btnP1Cat1K->setEnabled(false);
+        ui->btnP1Cat2K->setEnabled(false);
+        ui->btnP1Cat1HC->setEnabled(false);
+        ui->btnP1Cat2C->setEnabled(false);
+        ui->btnP1Cat2H->setEnabled(false);
+        ui->btnP1Cat2HC->setEnabled(false);
+
+        ui->btnP2Cat1K->setEnabled(false);
+        ui->btnP2Cat2K->setEnabled(false);
+        ui->btnP2Cat1C->setEnabled(false);
+        ui->btnP2Cat1H->setEnabled(false);
+        ui->btnP2Cat1HC->setEnabled(false);
+        ui->btnP2Cat2C->setEnabled(false);
+        ui->btnP2Cat2H->setEnabled(false);
+        ui->btnP2Cat2HC->setEnabled(false);
+
+    }
 }
 
 void MainWindow::on_pbPlayer2AddScore_clicked()
@@ -263,72 +272,96 @@ void MainWindow::on_pbPlayer2AddScore_clicked()
 
 void MainWindow::on_btnP2Cat1C_clicked()
 {
-    if(ui->btnP2Cat1C->isChecked()) ui->btnP2Cat1C->setStyleSheet("background-color: yellow;");
+    if(ui->btnP2Cat1C->isChecked()) {ui->btnP2Cat1C->setStyleSheet("background-color: yellow;"); CheckPenalties();}
     else ui->btnP2Cat1C->setStyleSheet("background-color: grey;");
+
 }
 
 void MainWindow::on_btnP2Cat1K_clicked()
 {
-    if(ui->btnP2Cat1K->isChecked()) ui->btnP2Cat1K->setStyleSheet("background-color: yellow;");
+    if(ui->btnP2Cat1K->isChecked()) {ui->btnP2Cat1K->setStyleSheet("background-color: yellow;"); CheckPenalties();}
     else ui->btnP2Cat1K->setStyleSheet("background-color: grey;");
 }
 
 void MainWindow::on_btnP2Cat1HC_clicked()
 {
-    if(ui->btnP2Cat1HC->isChecked()) ui->btnP2Cat1HC->setStyleSheet("background-color: yellow;");
+    if(ui->btnP2Cat1HC->isChecked()) {ui->btnP2Cat1HC->setStyleSheet("background-color: yellow;"); CheckPenalties();}
     else ui->btnP2Cat1HC->setStyleSheet("background-color: grey;");
 }
 
 void MainWindow::on_btnP2Cat1H_clicked()
 {
-    if(ui->btnP2Cat1H->isChecked()) ui->btnP2Cat1H->setStyleSheet("background-color: yellow;");
+    if(ui->btnP2Cat1H->isChecked()) {ui->btnP2Cat1H->setStyleSheet("background-color: yellow;"); CheckPenalties();}
     else ui->btnP2Cat1H->setStyleSheet("background-color: grey;");
 }
 //-------------------
 void MainWindow::on_btnP1Cat2C_clicked()
 {
-    if(ui->btnP1Cat2C->isChecked()) ui->btnP1Cat2C->setStyleSheet("background-color: yellow;");
+    if(ui->btnP1Cat2C->isChecked()) {ui->btnP1Cat2C->setStyleSheet("background-color: yellow;"); CheckPenalties();}
         else ui->btnP1Cat2C->setStyleSheet("background-color: grey;");
 }
 
 void MainWindow::on_btnP1Cat2K_clicked()
 {
-    if(ui->btnP1Cat2K->isChecked()) ui->btnP1Cat2K->setStyleSheet("background-color: yellow;");
+    if(ui->btnP1Cat2K->isChecked()) {ui->btnP1Cat2K->setStyleSheet("background-color: yellow;"); CheckPenalties();}
         else ui->btnP1Cat2K->setStyleSheet("background-color: grey;");
 }
 
 void MainWindow::on_btnP1Cat2HC_clicked()
 {
-    if(ui->btnP1Cat2HC->isChecked()) ui->btnP1Cat2HC->setStyleSheet("background-color: yellow;");
-        else ui->btnP1Cat2HC->setStyleSheet("background-color: grey;");
+    if(ui->btnP1Cat2HC->isChecked()) {ui->btnP1Cat2HC->setStyleSheet("background-color: yellow;"); CheckPenalties();}
+    else ui->btnP1Cat2HC->setStyleSheet("background-color: grey;");
 }
 
 void MainWindow::on_btnP1Cat2H_clicked()
 {
-    if(ui->btnP1Cat2H->isChecked()) ui->btnP1Cat2H->setStyleSheet("background-color: yellow;");
-        else ui->btnP1Cat2H->setStyleSheet("background-color: grey;");
+    if(ui->btnP1Cat2H->isChecked()) {ui->btnP1Cat2H->setStyleSheet("background-color: yellow;"); CheckPenalties();}
+    else ui->btnP1Cat2H->setStyleSheet("background-color: grey;");
 }
 
 void MainWindow::on_btnP2Cat2C_clicked()
 {
-    if(ui->btnP2Cat2C->isChecked()) ui->btnP2Cat2C->setStyleSheet("background-color: yellow;");
-        else ui->btnP2Cat2C->setStyleSheet("background-color: grey;");
+    if(ui->btnP2Cat2C->isChecked()) {ui->btnP2Cat2C->setStyleSheet("background-color: yellow;"); CheckPenalties();}
+    else ui->btnP2Cat2C->setStyleSheet("background-color: grey;");
 }
 
 void MainWindow::on_btnP2Cat2K_clicked()
 {
-    if(ui->btnP2Cat2K->isChecked()) ui->btnP2Cat2K->setStyleSheet("background-color: yellow;");
-        else ui->btnP2Cat2K->setStyleSheet("background-color: grey;");
+    if(ui->btnP2Cat2K->isChecked()) {ui->btnP2Cat2K->setStyleSheet("background-color: yellow;"); CheckPenalties();}
+    else ui->btnP2Cat2K->setStyleSheet("background-color: grey;");
 }
 
 void MainWindow::on_btnP2Cat2HC_clicked()
 {
-    if(ui->btnP2Cat2HC->isChecked()) ui->btnP2Cat2HC->setStyleSheet("background-color: yellow;");
-        else ui->btnP2Cat2HC->setStyleSheet("background-color: grey;");
+    if(ui->btnP2Cat2HC->isChecked()) {ui->btnP2Cat2HC->setStyleSheet("background-color: yellow;"); CheckPenalties();}
+    else ui->btnP2Cat2HC->setStyleSheet("background-color: grey;");
 }
 
 void MainWindow::on_btnP2Cat2H_clicked()
 {
-    if(ui->btnP2Cat2H->isChecked()) ui->btnP2Cat2H->setStyleSheet("background-color: yellow;");
+    if(ui->btnP2Cat2H->isChecked()) {ui->btnP2Cat2H->setStyleSheet("background-color: yellow;"); CheckPenalties();}
     else ui->btnP2Cat2H->setStyleSheet("background-color: grey;");
+}
+
+void MainWindow::CheckPenalties()
+{
+    if((       ui->btnP1Cat1C->isChecked() && ui->btnP1Cat1K->isChecked()
+            && ui->btnP1Cat1HC->isChecked()&& ui->btnP1Cat1H->isChecked()
+            && ui->btnP1Cat2C->isChecked() && ui->btnP1Cat2H->isChecked()
+            && ui->btnP1Cat2HC->isChecked()&& ui->btnP1Cat2K->isChecked()) ||
+
+            (   ui->btnP2Cat1C->isChecked() && ui->btnP2Cat1K->isChecked()
+             && ui->btnP2Cat1HC->isChecked()&& ui->btnP2Cat1H->isChecked()
+             && ui->btnP2Cat2C->isChecked() && ui->btnP2Cat2H->isChecked()
+             && ui->btnP2Cat2HC->isChecked()&& ui->btnP2Cat2K->isChecked()))
+    {
+        sound->play();
+        timer->stop();
+        ui->btnPlayer1AddScore->setEnabled(false);
+        ui->pbPlayer2AddScore->setEnabled(false);
+        ui->btnStart->setEnabled(true);
+        ui->btnPause->setEnabled(false);
+        ui->btnSettings->setEnabled(true);
+        ui->btnReset->setEnabled(true);
+    }
 }

@@ -72,6 +72,9 @@ private:
     int time, chosen_time; //seconds
     int score1, score2;
     QTimer *timer;
+    QSound *sound;
+    bool settings;
+    void CheckPenalties();
 };
 
 #endif // MAINWINDOW_H

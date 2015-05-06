@@ -21,6 +21,8 @@ int Dialog::GetRoundDuration()
     else if(ui->rb200->isChecked()) return 120;
     else if(ui->rb130->isChecked()) return 90;
     else if(ui->rb100->isChecked()) return 60;
+
+    return 0;
 }
 
 QString Dialog::GetPlayer1Name()
@@ -42,8 +44,15 @@ void Dialog::on_Dialog_accepted()
 
 }
 
-void Dialog::Init(QString p1, QString p2)
+void Dialog::Init(QString p1, QString p2, int d)
 {
     ui->txtPlayer1Name->setPlainText(p1);
     ui->txtPlayer2Name->setPlainText(p2);
+    if(d == 210) ui->rb330->setChecked(true);
+    else if(d == 180) ui->rb300->setChecked(true);
+    else if(d == 150) ui->rb230->setChecked(true);
+    else if(d == 120) ui->rb200->setChecked(true);
+    else if(d == 90)  ui->rb130->setChecked(true);
+    else if(d == 60)  ui->rb100->setChecked(true);
+    else ui->rb330->setChecked(true);
 }

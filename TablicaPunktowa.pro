@@ -24,3 +24,6 @@ FORMS    += mainwindow.ui \
 
 DISTFILES += \
     horn.wav
+
+RESOURCES += \
+    resources.qrc

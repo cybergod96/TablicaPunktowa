@@ -19,7 +19,7 @@ public slots:
     int GetRoundDuration();
     QString GetPlayer1Name();
     QString GetPlayer2Name();
-    void Init(QString p1, QString p2);
+    void Init(QString p1, QString p2, int d);
 
 private slots:
     void on_Dialog_accepted();
